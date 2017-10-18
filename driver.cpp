@@ -57,7 +57,6 @@ int main()
 restartAll:
 
 	menu myLoginMenu("loginMenu.txt");
-	menu myAdminMenu("adminMenu.txt");
 	login myLogin;
 	int indexSelection;
 	vector<vector<string>> user = userTable("credentials.txt");
@@ -115,9 +114,10 @@ restartAll:
 	while (!exitSwitch2)
 	{
 		system("cls");
-		cout << "Hello, " << curEmployee.getFirstName() << "! What would you like to do?" << endl << endl;
-		myAdminMenu.startMenu();
-		indexSelection = myAdminMenu.getIndex();
+		system("cls");
+		cout << curEmployee.getFirstName() << " " << curEmployee.getLastName() << " "
+			<< curEmployee.getDepartment() << endl; 
+		exitSwitch2 = true;
 		
 	}
 
