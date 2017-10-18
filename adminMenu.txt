@@ -1,7 +1,4 @@
-HR
-Sales
-Purchasing
-Warehouse
-Accounting
+Add User
+Remove User
 Logout
 Exit
