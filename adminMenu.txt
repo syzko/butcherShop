@@ -1,4 +1,6 @@
 Add User
 Remove User
+Add Department
+Remove Department
 Logout
 Exit
