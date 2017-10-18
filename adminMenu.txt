@@ -1,0 +1,7 @@
+HR
+Sales
+Purchasing
+Warehouse
+Accounting
+Logout
+Exit
