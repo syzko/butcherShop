@@ -1,0 +1,6 @@
+Admin
+HR
+Sales
+Purchasing
+Accounting
+Warehouse
