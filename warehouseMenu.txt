@@ -1,0 +1,3 @@
+Check Inventory
+Log Out
+Exit
