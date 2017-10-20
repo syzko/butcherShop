@@ -3,7 +3,7 @@
 //	Created By: Steven Bensinger		//
 //										//
 //	Date Created: 10/12/2017			//
-//	Last Modified: 10/18/2017			//
+//	Last Modified: 10/20/2017			//
 //										//
 //	 									//
 ////////////////////////////////////////*/
@@ -15,6 +15,12 @@
 #include<windows.h>
 #include"personType.h"
 #include"employeeType.h"
+#include"adminType.h"
+#include"hrType.h"
+#include"saleType.h"
+#include"purchaseType.h"
+#include"accountingType.h"
+#include"warehouseType.h"
 #include"menu.h"
 #include"login.h"
 
@@ -94,47 +100,57 @@ int main()
 {
 restartAll: 
 
-	menu myLoginMenu("loginMenu.txt");
-	login myLogin;
-	int indexSelection;
-	vector<vector<string>> user = userTable("credentials.txt");
-	vector<string> departments = deptTable("deptList.txt");
+	menu myLoginMenu("loginMenu.txt");//menu object to execute login menu
+	login myLogin;//login object to execute login functions
+	int indexSelection;//variable to execute menu option
+	vector<vector<string>> user = userTable("credentials.txt");//array set equal to loaded user table
+	vector<string> departments = deptTable("deptList.txt");//aaray set equal to department table
 	
-	employeeType curEmployee;
-	string department;
-	string username;
-	string password;
+	employeeType curEmployee;//employee object to represent current user
 	
-	bool exitSwitch1 = false;
-	bool exitSwitch2 = false;
-	
+	string department;//employee attribute
+	string username;//employee attribute
+	string password;//employee attribute
 
-	while (!exitSwitch1)
+	adminType administrator;//object with employee department atrribute = Admin
+	hrType hr;//object with employee department atrribute = HR
+	saleType sales;//object with employee department atrribute = Sales
+	purchaseType purchasing;//object with employee department atrribute = Purchasing
+	accountingType accounting;//object with employee department atrribute = Accounting
+	warehouseType warehouse;//object with employee department atrribute = Warehouse 
+
+
+	bool exitSwitch1 = false;//variable to exit loop 1
+	bool exitSwitch2 = false;//variable to exit loop 2
+	bool restart = false;//variable to restart after logout
+	
+	
+	while (!exitSwitch1)//loop to execute login functions
 	{
 		myLoginMenu.startMenu();
-		indexSelection = myLoginMenu.getIndex();
-		bool userFound = false;
+		indexSelection = myLoginMenu.getIndex();//sets index selection from login class
+		bool userFound = false;//exit validation loop
 
-		switch (indexSelection)
+		switch (indexSelection)//executes user selections
 		{
-		case 0:
-			myLogin.prompt();
-			username = myLogin.getUsername();
-			password = myLogin.getPassword();
-			while (!userFound)
+		case 0://login
+			myLogin.prompt();//execute login prompt
+			username = myLogin.getUsername();//sets attribute from login class
+			password = myLogin.getPassword();//sets attribute from login class
+			while (!userFound)//loop to validate user
 			{
-				for (int i = 0; i < user.size(); i++)
+				for (int i = 0; i < user.size(); i++)//search user list and compare to attributes
 				{
 					for (int j = 0; j < user[i].size(); j++)
 					{
 						if (user[i][j] == username && user[i][j + 1] == password)
 						{
 							curEmployee.setCredentials(user[i][0], user[i][1], user[i][2], user[i][3], user[i][4]);
-							userFound = true;
+							userFound = true;//exit loop
 						}
 					}
 				}
-				if (userFound == false)
+				if (userFound == false)//restart login process
 				{
 					cout << endl << "User not found! Please Retry." << endl;
 					Sleep(2000);
@@ -142,53 +158,63 @@ restartAll:
 					username = myLogin.getUsername();
 					password = myLogin.getPassword();
 				}
-			}
-			exitSwitch1 = true;
+			}//end validation loop
+			exitSwitch1 = true;//exit loop 1
 			system("cls");
 			break;
-		case 1:
-			exitSwitch1 = true;
-			exitSwitch2 = true;
+		case 1://exit
+			exitSwitch1 = true;//exit loop 1
+			exitSwitch2 = true;//prevent loop 2
 			system("cls");
 			break;
-		}
-	}
+		}//end switch user selection
+	}//end login loop
 
-	while (!exitSwitch2)
+	while (!exitSwitch2)//loop to execute department classes based on login
 	{
-		for (int i = 0; i < departments.size(); i++)
+		for (int i = 0; i < departments.size(); i++)//search and find department of user
 		{
 			if (curEmployee.getDepartment() == departments[i])
-				indexSelection = i;
+				indexSelection = i;//set department index
 		}
-		
-		switch (indexSelection)
+
+		switch (indexSelection)//execute department
 		{
 		case 0:
-			cout << "Admin" << endl;
+			administrator.adminMenu(restart);
+			exitSwitch2 = true;
 			break;
 		case 1:
-			cout << "HR" << endl;
+			hr.hrMenu(restart);
+			exitSwitch2 = true;
 			break;
 		case 2:
-			cout << "Sales" << endl;
+			sales.salesMenu(restart);
+			exitSwitch2 = true;
 			break;
 		case 3:
-			cout << "Purchasing" << endl;
+			purchasing.purchaseMenu(restart);
+			exitSwitch2 = true;
 			break;
 		case 4:
-			cout << "Accounting" << endl;
+			accounting.accountMenu(restart);
+			exitSwitch2 = true;
 			break;
 		case 5:
-			cout << "Warehouse" << endl;
+			warehouse.warehouseMenu(restart);
+			exitSwitch2 = true;
 			break;
-			
 
 		}
-		
-		exitSwitch2 = true;
-	}
 
+		if (restart == true)//logout
+		{
+			goto restartAll;
+		}
+	
+	}//end execution loop
+
+	//end program
 	cout << endl << endl;
 	system("pause");
 	return 0;
